@@ -1,5 +1,6 @@
 [BEGINVDF]
 Comment=This patch prevents traders from auto-equipping the best weapons which made them inaccessible during trading (Gothic 1 and Gothic 2 NotR)
+BaseDir=.\
 VDFName=.\KeepTraderWeapons.vdf
 
 [FILES]
