@@ -1,7 +1,7 @@
 /*
  * This script is taken from https://forum.worldofplayers.de/forum/threads/?p=25954713
  *
- * When using in other projects, make sure to remove the "Patch_" prefix from all symbols! Please mention the above
+ * When using in other projects, make sure to remove the "Patch_KTW_" prefix from all symbols! Please mention the above
  * source.
  */
 
@@ -15,7 +15,7 @@
  *
  * Call FixEquipBestWeapons_Init from Init_Global.
  */
-func void Patch_FixEquipBestWeapons_Init() {
+func void Patch_KTW_FixEquipBestWeapons_Init() {
     const int once = 0;
     if (!once) {
         MEM_InitAll();
@@ -34,13 +34,13 @@ func void Patch_FixEquipBestWeapons_Init() {
         MemoryProtectionOverride(addr, 18);
         MEM_CopyBytes(_@(nop20Bytes), addr, 18);
 
-        HookEngineF(addr, 5, Patch__FixEquipBestWeapons);
+        HookEngineF(addr, 5, Patch_KTW__FixEquipBestWeapons);
 
         once = 1;
     };
 };
 
-func void Patch_NpcEquipBestWeaponByType(var C_Npc npc, var int type) {
+func void Patch_KTW_NpcEquipBestWeaponByType(var C_Npc npc, var int type) {
     const int oCNpc__EquipBestWeapon_G1C = 6988320; //0x6AA220
     const int oCNpc__EquipBestWeapon_G1A = 7196944; //0x6DD110
     const int oCNpc__EquipBestWeapon_G2C = 7274832; //0x6F0150
@@ -57,16 +57,19 @@ func void Patch_NpcEquipBestWeaponByType(var C_Npc npc, var int type) {
     };
 };
 
-func void Patch__FixEquipBestWeapons() {
+func void Patch_KTW__FixEquipBestWeapons() {
+   const int ITEM_KAT_NF = 1 << 1;
+   const int ITEM_KAT_FF = 1 << 2;
+
     var C_Npc npc; npc = _^(ESI);
 
     if (!Npc_HasEquippedMeleeWeapon(npc))
     && (!Npc_HasReadiedMeleeWeapon(npc)) {
-        Patch_NpcEquipBestWeaponByType(npc, ITEM_KAT_NF);
+        Patch_KTW_NpcEquipBestWeaponByType(npc, ITEM_KAT_NF);
     };
 
     if (!Npc_HasEquippedRangedWeapon(npc))
     && (!Npc_HasReadiedRangedWeapon(npc)) {
-        Patch_NpcEquipBestWeaponByType(npc, ITEM_KAT_FF);
+        Patch_KTW_NpcEquipBestWeaponByType(npc, ITEM_KAT_FF);
     };
 };
