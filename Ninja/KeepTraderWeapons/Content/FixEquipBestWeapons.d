@@ -20,14 +20,8 @@ func void Patch_KTW_FixEquipBestWeapons_Init() {
     if (!once) {
         MEM_InitAll();
 
-        const int oCNpc__Enable_equipBestWeapons_G1C = 6955616; //0x6A2260
-        const int oCNpc__Enable_equipBestWeapons_G1A = 7162498; //0x6D4A82
-        const int oCNpc__Enable_equipBestWeapons_G2C = 7238946; //0x6E7522
-        const int oCNpc__Enable_equipBestWeapons_G2A = 7626662; //0x745FA6
-        var int addr; addr = MEMINT_SwitchExe(oCNpc__Enable_equipBestWeapons_G1C,
-                                              oCNpc__Enable_equipBestWeapons_G1A,
-                                              oCNpc__Enable_equipBestWeapons_G2C,
-                                              oCNpc__Enable_equipBestWeapons_G2A);
+        const int oCNpc__Enable_equipBestWeapons[4] = { /*G1*/6955616, /*G1A*/7162498, /*G2*/7238946, /*G2A*/7626662 };
+        var int addr; addr = oCNpc__Enable_equipBestWeapons[KTW_EXE];
 
         // Remove default equipping of best melee and ranged weapon to add more conditions
         const int nop20Bytes[5] = { -1869574000, -1869574000, -1869574000, -1869574000, -1869574000 }; //0x90 * 20
@@ -41,18 +35,12 @@ func void Patch_KTW_FixEquipBestWeapons_Init() {
 };
 
 func void Patch_KTW_NpcEquipBestWeaponByType(var C_Npc npc, var int type) {
-    const int oCNpc__EquipBestWeapon_G1C = 6988320; //0x6AA220
-    const int oCNpc__EquipBestWeapon_G1A = 7196944; //0x6DD110
-    const int oCNpc__EquipBestWeapon_G2C = 7274832; //0x6F0150
-    const int oCNpc__EquipBestWeapon_G2A = 7663408; //0x74EF30
+    const int oCNpc__EquipBestWeapon[4] = { /*G1*/6988320, /*G1A*/7196944, /*G2*/7274832, /*G2A*/7663408 };
     var int npcPtr; npcPtr = _@(npc);
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_IntParam(_@(type));
-        CALL__thiscall(_@(npcPtr), MEMINT_SwitchExe(oCNpc__EquipBestWeapon_G1C,
-                                                    oCNpc__EquipBestWeapon_G1A,
-                                                    oCNpc__EquipBestWeapon_G2C,
-                                                    oCNpc__EquipBestWeapon_G2A));
+        CALL__thiscall(_@(npcPtr), oCNpc__EquipBestWeapon[KTW_EXE]);
         call = CALL_End();
     };
 };
